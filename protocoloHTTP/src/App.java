@@ -44,7 +44,7 @@ public class App {
 
         String accessLog = String.format("Client %s, method %s, path %s, version %s, host %s, headers %s",
                 client.toString(), method, path, version, host, headers.toString());
-        System.out.println(accessLog);
+       System.out.println(accessLog);
 
 
         Path filePath = getFilePath(path);
