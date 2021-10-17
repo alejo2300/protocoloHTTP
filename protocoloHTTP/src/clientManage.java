@@ -37,11 +37,12 @@ public class clientManage {
             headers.add(header);
         }
 
-        System.out.println("Method: "+ method +"\nPath: "+ path + "\nVersion: " + version + "\nHost: " + host + "\n" + headers.get(4) + "\n" + headers.get(0) + "\n" + headers.get(10));
+        System.out.println("Method: "+ method +"\nPath: "+ path + "\nVersion: " + version + "\nHost: " + host + "\n" + headers.get(4) + "\n" + headers.get(0));
         //Print accept section
         for (int i = 1; i < 4; i++) {
             System.out.println(headers.get(i));
         }
+        System.out.println("\n\n");
         //Print Headers
         /*for (int i = 0; i < headers.size(); i++) {
             System.out.println(i + ": " +headers.get(i));
@@ -74,11 +75,7 @@ public class clientManage {
     }
 
     private static Path getFilePath(String path) {
-        if ("/".equals(path)) {
-            path = "/MyPresentationPage/index.html";
-        }
-
-        return Paths.get("/tmp/www", path);
+        return Paths.get("/tmp/www/MyPresentationPage/", path);
     }
 
     private static String guessContentType(Path filePath) throws IOException {
