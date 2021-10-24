@@ -68,7 +68,7 @@ public class clientManage {
         }else{
             //Internet consult 
             System.out.println("Atara");
-
+            sendInternetResponse(client, urlToConsult);
         }
     }
 
