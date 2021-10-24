@@ -85,7 +85,13 @@ public class clientManage {
             // Internet consult
 
             // Check for virtualEnviroment
-            sendInternetResponse(client, urlToConsult, method);
+            if(method.equals("GET")){
+                sendInternetResponse(client, urlToConsult, method);
+            }else if(method.equals("POST")){
+
+            }else{
+                System.out.println("\nEl metodo actaul no es ni get ni post, por lo cual no se responde\n");
+            }
         }
     }
 
@@ -115,7 +121,6 @@ public class clientManage {
             clientOutput.write("\r\n".getBytes());
             InputStream stream = urlcon.getInputStream();
             int i;
-            byte[] bytes;
             while ((i = stream.read()) != -1) {
                 clientOutput.write((byte) i);
             }
