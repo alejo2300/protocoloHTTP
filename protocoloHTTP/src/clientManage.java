@@ -11,9 +11,13 @@ import java.util.StringTokenizer;
 
 public class clientManage {
     Socket client;
+    List<String> virtualRedirection = new ArrayList<String>();
 
-    public clientManage(Socket client) {
+    public clientManage(Socket client, List<String> virtualRedirection) {
         this.client = client;
+        for (int i = 0; i < virtualRedirection.size(); i++) {
+            this.virtualRedirection.add(virtualRedirection.get(i));
+        }
     }
 
     public void readGetValues() throws IOException {
@@ -42,7 +46,11 @@ public class clientManage {
         String urlToConsult;
         // See the tipe of method
         if (method.equals("GET")) {
+            //Check the url to consult and checking if is a virtual host
             urlToConsult = path;
+            urlToConsult = virtualRedirection(host,path,urlToConsult);
+            System.out.println("URL a consultar: " + urlToConsult);
+
             System.out.println("Method: " + method + "\nURL: " + urlToConsult + "\nPath: " + path + "\nVersion: "
                     + version + "\nHost: " + host + "\n" + headers.get(4) + "\n" + headers.get(0));
             // Print headers
@@ -51,7 +59,10 @@ public class clientManage {
             }
 
         } else if (method.equals("POST")) {
-            urlToConsult = urlSetter(host, path);
+            urlToConsult = path;
+            urlToConsult = virtualRedirection(host,path,urlToConsult);
+            System.out.println("URL a consultar: " + urlToConsult);
+            //urlToConsult = virtualRedirection(host,path,method,urlToConsult);
 
             System.out.println("Method: " + method + "\nURL: " + urlToConsult + "\nPath: " + path + "\nVersion: "
                     + version + "\nHost: " + host);
@@ -152,14 +163,22 @@ public class clientManage {
         // get only the port no the port
         StringTokenizer tokens = new StringTokenizer(host, ":");
 
-        System.out.println(host + " Ajuaaa" + path);
 
-        return "http://" + tokens.nextToken() + path;
+        return "http://" + host + path.substring(6,path.length());
     }
 
     private static String urlSetterConnect(String path) {
         // get only the port no the port
         StringTokenizer tokens = new StringTokenizer(path, ":");
         return "http://" + tokens.nextToken();
+    }
+
+    private String virtualRedirection(String host, String path, String currentURL) {
+        for (int i = 0; i < this.virtualRedirection.size(); i=i+3) {
+            if(this.virtualRedirection.get(i).equals(host)){
+                return "http://" + this.virtualRedirection.get(i+1) + this.virtualRedirection.get(i+1) + path.substring(host.length()+7,path.length());
+            }
+        }
+        return currentURL;
     }
 }
